@@ -1,0 +1,8 @@
+netdata.example.com {
+    reverse_proxy netdata:19999
+
+    # Basic auth
+    basicauth / {
+        admin $2a$14$hxqHLE/qj4QIOSaBLCKouOX4Y72P0q7Cr4cUKx/jWK0WMt6NUurke
+    }
+}

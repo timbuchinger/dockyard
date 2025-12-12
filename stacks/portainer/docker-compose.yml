@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: unless-stopped
+    ports:
+      - "9000:9000"   # Web UI
+      - "9443:9443"   # HTTPS UI
+    volumes:
+      - /run/podman/podman.sock:/var/run/docker.sock
+      - /var/lib/podman-volumes/portainer/data:/data  # Persistent storage

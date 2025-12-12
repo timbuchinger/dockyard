@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  netdata:
+    image: netdata/netdata:latest
+    container_name: netdata
+    restart: unless-stopped
+    hostname: netdata      # Appears in the dashboard
+    ports:
+      - "19999:19999"      # Netdata web UI
+    cap_add:
+      - SYS_PTRACE         # Required for app-level metrics
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      # Persistent storage
+      - /var/lib/podman-volumes/netdata/lib:/var/lib/netdata
+      - /var/lib/podman-volumes/netdata/cache:/var/cache/netdata
+
+      # Host access for metrics
+      - /etc/passwd:/host/etc/passwd:ro
+      - /etc/group:/host/etc/group:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+
+      # (Optional) Docker/Podman metrics support
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /run/podman/podman.sock:/var/run/docker.sock:ro
