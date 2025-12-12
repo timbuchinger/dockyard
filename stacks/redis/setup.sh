@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 sudo mkdir -p /var/lib/podman-volumes/redis/data
+sudo chown -R 100:101 /var/lib/podman-volumes/redis/data
+sudo chmod -R 770 /var/lib/podman-volumes/redis/data
 
 # Open firewall port for Redis on Rocky Linux (firewalld)
 if command -v firewall-cmd >/dev/null 2>&1; then

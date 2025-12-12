@@ -1,0 +1,21 @@
+services:
+  tailscale:
+    image: tailscale/tailscale:stable
+    container_name: tailscale
+    restart: unless-stopped
+    env_file:
+      - ../.env
+    environment:
+      # Provide an auth key via `TAILSCALE_AUTHKEY` in the stack's .env
+      TAILSCALE_AUTHKEY: ${TAILSCALE_AUTHKEY}
+      # Optional extra flags for `tailscaled` / `tailscale up`
+      TAILSCALE_EXTRA_ARGS: "${TAILSCALE_EXTRA_ARGS}"
+    network_mode: "host"
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    volumes:
+      - /var/lib/podman-volumes/tailscale/lib:/var/lib/tailscale
+      - /var/lib/podman-volumes/tailscale/run:/var/run/tailscale
+    # When running in host network mode we don't publish ports here
