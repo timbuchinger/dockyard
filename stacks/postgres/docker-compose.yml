@@ -2,11 +2,11 @@ version: "3.9"
 
 services:
   postgres:
-    image: pgvector/pgvector:pg16  # Latest pg16 with pgvector preinstalled
+    image: pgvector/pgvector:pg18  # Latest pg16 with pgvector preinstalled
     container_name: postgres
     restart: unless-stopped
     env_file:
-      - .env
+      - ../.env
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
