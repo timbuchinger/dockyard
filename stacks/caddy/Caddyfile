@@ -5,4 +5,8 @@ netdata.example.com {
     basicauth / {
         admin $2a$14$hxqHLE/qj4QIOSaBLCKouOX4Y72P0q7Cr4cUKx/jWK0WMt6NUurke
     }
+
+    # Use Caddy's internal CA for testing (self-signed-like certificates).
+    # Browsers won't trust this by default — add the CA to your trust store if needed.
+    tls internal
 }
