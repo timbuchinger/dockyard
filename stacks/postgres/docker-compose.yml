@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   postgres:
     image: pgvector/pgvector:pg18  # Latest pg16 with pgvector preinstalled
@@ -17,7 +15,7 @@ services:
       - "5432:5432"
 
   pgadmin:
-    image: dpage/pgadmin4:latest
+    image: dpage/pgadmin4:9.11
     container_name: pgadmin
     restart: unless-stopped
     env_file:

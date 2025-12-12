@@ -1,8 +1,6 @@
-version: "3.9"
-
 services:
   netdata:
-    image: netdata/netdata:latest
+    image: netdata/netdata:v2.8
     container_name: netdata
     restart: unless-stopped
     hostname: netdata      # Appears in the dashboard

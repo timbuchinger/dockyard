@@ -1,7 +1,21 @@
 #!/usr/bin/env bash
 
-sudo mkdir -p /var/lib/podman-volumes/portainer/data
-sudo chown 1000:1000 /var/lib/podman-volumes/portainer/data
+set -euo pipefail
+
+DATA_DIR=/var/lib/podman-volumes/portainer/data
+
+sudo mkdir -p "$DATA_DIR"
+# Ensure Portainer can write into the data directory. Use recursive chown/chmod to avoid permission denied errors.
+sudo chown -R 1000:1000 "$DATA_DIR"
+sudo chmod -R 775 "$DATA_DIR"
+
+# If SELinux is enabled (common on RHEL/Rocky/CentOS), adjust the label so Podman/container can access the bind mount.
+if command -v getenforce >/dev/null 2>&1; then
+	if [ "$(getenforce)" != "Disabled" ]; then
+		echo "SELinux is enabled; applying container-friendly label to $DATA_DIR"
+		sudo chcon -Rt svirt_sandbox_file_t "$DATA_DIR" || true
+	fi
+fi
 
 # Open firewall ports for Portainer on Rocky Linux (firewalld)
 if command -v firewall-cmd >/dev/null 2>&1; then
